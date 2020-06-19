@@ -1,0 +1,12 @@
+#----Object files----#
+*.o
+*.out
+
+#----Class files----#
+*.class
+
+#----VS Code Config ----#
+*.vscode
+
+#----File locks----#
+*.~lock*
