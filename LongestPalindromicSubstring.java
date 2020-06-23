@@ -26,7 +26,7 @@ public class LongestPalindromicSubstring {
     
     // This method will check each letter in the string as a possible center
     // of the palindrome
-    public String longestPalindrome(String s) {
+    public static String longestPalindrome(String s) {
         // Edge cases: string is empty
         if (s == null || s.length() < 1) {
             return "";
@@ -57,7 +57,7 @@ public class LongestPalindromicSubstring {
     
     // This method will take in the string and two indices representing the left
     // and right characters
-    private int checkFromCenter(String s, int left, int right) {
+    private static int checkFromCenter(String s, int left, int right) {
         // As long as the two indices are in range of the string and the 
         // characters at those indices are the same, expand outwards
         while (left >= 0 && right < s.length() 
