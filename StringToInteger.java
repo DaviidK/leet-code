@@ -60,7 +60,7 @@ public class StringToInteger {
                           + myAtoi("-91283472332"));
     }
     
-    public static int myAtoi(String str) {
+    public int myAtoi(String str) {
 
         // Return 0 if string is empty, null, or only contains a single space
         if (str == null || str.length() == 0 || str.equals(" ")) {
@@ -77,8 +77,13 @@ public class StringToInteger {
         int signCount = 0;
 
         // Move past all whitespace characters 
-        while (str.charAt(index) == ' ' && index < str.length()) {
+        while (index < str.length() && str.charAt(index) == ' ') {
             index++;
+        }
+        
+        // Check if the word contained only whitespaces
+        if (str.length() == index) {
+                return 0;
         }
 
         // Check if string contains a positive sign
@@ -92,7 +97,7 @@ public class StringToInteger {
         }
 
         // If two characters are found in a row, the string is invalid
-        if (str.charAt(index) == '+' || str.charAt(index) == '-') {
+        if (str.length() > index && (str.charAt(index) == '+' || str.charAt(index) == '-')) {
             return 0;
         }
 
