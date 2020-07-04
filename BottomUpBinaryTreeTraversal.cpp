@@ -51,14 +51,17 @@ void dfs(TreeNode* root, vector<vector<int>> &result, int level) {
     result.push_back({});
   }
 
+  // Check left child
   if (root->left != NULL) {
     dfs(root->left, result, level + 1);
   }
 
+  // Check right child
   if (root->right != NULL) {
     dfs(root->right, result, level + 1);
   }
 
+  // Add value at current node
   result[level].push_back(root->val);
 }
 
