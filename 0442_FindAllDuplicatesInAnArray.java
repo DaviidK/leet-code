@@ -16,6 +16,12 @@ Output:
 */
 import java.util.*;
 
+// Java doesn't allow underscores in file names, so it's necessary to rename the 
+// file before compiling. I chose to keep the underscore for easy organization
+// within my git repo, given that these files are often never compiled after being 
+// committed
+public class FindAllDuplicatesInAnArray {
+
 /**
  * O(n) runtime, O(1) space
  * Go through the array and use the values stored to access indices in the array.
@@ -26,7 +32,6 @@ import java.util.*;
  * If a negative value is encountered when marking, that index has already 
  * been visited, thus the index number is a duplicate
 */
-public class FindAllDuplicatesInAnArray {
   public static List<Integer> findDuplicates(int[] nums) {
     List<Integer> result = new ArrayList<>();
 
