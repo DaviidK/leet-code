@@ -23,81 +23,73 @@ Constraints:
     Each string is either "0" or doesn't contain any leading zero.
 */
 
+// Java doesn't allow underscores in file names, so it's necessary to rename the 
+// file before compiling. I chose to keep the underscore for easy organization
+// within my git repo, given that these files are often never compiled after being 
+// committed
 public class AddBinary {
-    public static void main(String[] args) {
+
+  public String addBinary(String a, String b) {
+    // Stringbuilder which will store the result
+    StringBuilder result = new StringBuilder();
+    
+    // Start at the last character of the first string
+    int word1Pos = a.length() - 1;
+    // Start at the last character of the second string
+    int word2Pos = b.length() - 1;
+    // Variable which represents any values that need to be carried over
+    int carry = 0; 
+    
+    // Add the two strings so long as they are the same length
+    while(word1Pos >= 0 || word2Pos >= 0) {
+      // Character from first string
+      int c1 = 0;
+      // Character from second string
+      int c2 = 0;
         
+      // If there are still characters in the first string, save the next one into
+      // c1
+      if(word1Pos >= 0) {
+        // Subtract '0' to convert it to an int
+        c1 = a.charAt(word1Pos) - '0';
+      }
+      
+      // If there are still characters in the second string, save the next one into
+      // c2
+      if(word2Pos >= 0) {
+        // Subtract '0' to convert it to an int
+        c2 = b.charAt(word2Pos) - '0';
+      }
+        
+      // Sum the two characters, adding the carried value as well
+      int sum = c1 + c2 + carry;
+      
+      // If the sum is 1 or 0, append that answer to the result
+      if(sum <= 1) {
+        result.append(Integer.toString(sum));
+        // Set the carry to 0
+        carry = 0;
+      } 
+      // If the sum is larger than 1, append either a 0 or 1 to result depending on
+      // the sum.  
+      else {
+        // Sum % 2 can only be a 0 or 1
+        result.append(Integer.toString(sum % 2));
+        // Set carry to 1
+        carry = 1;
+      }
+      
+      // Move the two position pointers one position to the left
+      word1Pos--;
+      word2Pos--;
     }
-
-    // 111
-    // 11
-    // i = 2
-    // shortNum = '1'
-    // longNum = '1'
-    // carry = '1'
-    // result = "0"
-
-    // Not working currently, also not an appropriate approach for this solution
-    // Overly complicated logically
-    public String addBinary(String a, String b) {
-        String longString = (a.length() > b.length()) ? a : b;
-        String shortString = (a.length() > b.length()) ? b : a;
-        String result = "";
-        char carry = '0';
-
-        // Iterate through the length of the shorter parameter
-        for (int i = 1; i <= shortString.length(); i++) {
-            // Pull the digits from both strings
-            char shortNum = shortString.charAt(shortString.length() - i);
-            char longNum = longString.charAt(longString.length() - i);
-
-            // If both are 1 and carry is 1, then add a 1 to the result & leave carry at 1
-            if ((shortNum == '1' && longNum == '1') && carry == '1') {
-                result = "1" + result;
-            }
-            // If both are 1 and carry is 0, then add a 0 to the result & update carry to 1
-            else if ((shortNum == '1' && longNum == '1') && carry == '0') {
-                result = "0" + result;
-                carry = '1';
-            }
-            // If one digit is 1 and carry is 1, add 0 to the result & leave carry at 1
-            else if ((shortNum == '1' || longNum == '1') && carry == '1') {
-                result = "0" + result;
-            }
-            // If one digit is 1 and carry is 0, add 1 to result & leave carry at 0
-            else if ((shortNum == '1' || longNum == '1') && carry == '0') {
-                result = "1" + result;
-            }
-            // If both digits are 0 and carry is 1, add 1 to result & update carry to 0
-            else if ((shortNum == '0' && longNum == '0') && carry == '1'){
-                result = "1" + result;
-                carry = '0';
-            }
-            else {
-                result = "0" + result;
-            }
-        }
-
-        // Iterate through the rest of the longer string, adding the values into
-        // result. Ensure that the carry variable is taken into account
-        for (int i = longString.length() - shortString.length() - 1; i >= 0; i--) {
-            // If the digit && carry are 1, add a 1 to result and leave carry at 1
-            if (carry == '1' && longString.charAt(i) == '1') {
-                result = "0" + result;
-            }
-            // If the digit is 1 & carry is 0, add a 1 to result and leave carry at 0
-            else if (carry == '0' && longString.charAt(i) == '1') {
-                result = "1" + result;
-            }
-            // If both the digit & carry are 0, add a 0 to result and leave carry at 0
-            else {
-                result = "0" + result;
-            }
-        }
-
-        if (carry == '1') {
-            result = "1" + result;
-        }
-
-        return result;
+    
+    // If there is something leftover in the carry, append it to the end
+    if(carry != 0) {
+        result.append(carry);
     }
+    
+    // Finally, reverse the string to get the final result
+    return result.reverse().toString();
+  }
 }
