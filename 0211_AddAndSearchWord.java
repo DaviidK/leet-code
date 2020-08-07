@@ -74,57 +74,56 @@ public class WordDictionary {
     // Iterate through the length of the word
     for (int i = 0; i < word.length(); i++) {
       char letter = word.charAt(i);
-      // If the next letter is contained within the trie currently, move to the 
-      // node that contains that letter
-      if (current.children.containsKey(letter)) {
-        current = current.children.get(letter);
-      } 
-      // If the next letter isn't contained, add a new node containing that letter
+      // If the next letter isn't found in the trie, add a new node containing that letter
       // to the children of the current node
-      else {
-        TrieNode nextLetter = new TrieNode(letter);
-        current.children.put(letter, nextLetter);
-        // Move current to the next letter
-        current = nextLetter;
-      }
+      if (!current.children.containsKey(letter)) {
+        current.children.put(letter, new TrieNode(letter));
+      } 
+      // Move current to the next letter
+      current = current.children.get(letter);
     }
+    current.isTerminal = true;
   }
 
   /** Returns if the word is in the data structure. A word could contain the dot character '.' to represent any one letter. */
   public boolean search(String word) {
-    System.out.println(root.children);
+    // Return false if the trie is empty
+    if (root == null) {
+      return false;
+    }
+    // Use the helper method to search through all children nodes
     return searchHelper(word, root);
   }
 
   public boolean searchHelper(String word, TrieNode node) {
-    TrieNode current = root;
-    // Loop through each character in the word
-    for (char letter : word.toCharArray()) {
-      // If the letter is a period, any letter is valid in that position. 
-      if (letter == '.') {
-        // Iterate through every child node to see if the word can be found
-        for (TrieNode n : current.children.values()) {
-          searchHelper(word.substring(1), n);
-        }
-        // Return false if every child is examined without finding the word
-        return false;
-      }
-
-      // If the letter is not a period, check if the letter is contained in a child
-      // node to the current letter
-      if (current.children.containsKey(letter)) {
-        // Move current to the next letter if it exists in the children
-        current = current.children.get(letter);
-      }
-      // If the letter is not found in the children, it doesn't exist in the trie
-      else {
-        return false;
-      }
+    // If the end of the word has been reached, check if the current node is
+    // marked as a terminal point
+    if (word.length() == 0) {
+      return node.isTerminal;
     }
 
-    // If a node can be found for every letter in the word, than the word exists
-    // in the trie
-    return true;
+    // Pull the first letter from the word
+    char letter = word.charAt(0);
+
+    // If the letter is a period, any letter is valid in that position. 
+    if (letter == '.') {
+      // Iterate through every child node to see if the word can be found
+      for (TrieNode n : node.children.values()) {
+        if(searchHelper(word.substring(1), n)) {
+          return true;
+        }
+      }
+    }
+    // If the letter is not a period, check if the letter is contained in a child
+    // node to the current letter
+    else if (node.children.containsKey(letter)) {
+      // Move current to the next letter if it exists in the children
+      return searchHelper(word.substring(1), node.children.get(letter));
+    }
+
+    // If the letter is not found in the children, or if it is a period and no 
+    // child can find the word, return false
+    return false;
   }
 }
 
