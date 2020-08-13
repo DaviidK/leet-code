@@ -20,9 +20,22 @@ Could you optimize your algorithm to use only O(k) extra space?
 
 using namespace std;
 
+// O(n) time complexity, O(k) space complexity 
 vector<int> getRow(int rowIndex) {
-  vector<int> result;
+  // Create array using passed index + 1 for size 
+  vector<int> result(rowIndex+1);
+  // Set the first value equal to one
+  result[0] = 1;
+  
+  // Iterate through the array until the correct row is reached
+  for(int i = 1; i <= rowIndex; i++) {
+      // For each row, populate values by summing the values that had appeared
+      // previously
+      for(int j = i; j >= 1; j--) {
+        result[j] += result[j-1];
+      }
+  }
 
-
+  // Return the resulting array
   return result;
 }
