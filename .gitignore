@@ -2,6 +2,9 @@
 *.o
 *.out
 
+##----Executable files----#
+*.exe
+
 #----Class files----#
 *.class
 
