@@ -57,30 +57,43 @@ public class LongestSubstringNoRepeat {
         return max;
     }
 
-    // Attempt to complete problem in O(n) without using an extra data structure
-    public static int lengthOfLongestSubstring(String s) {
-        // Create result counter and string representing vharacters that have
-        // already been seen
-        int max = 0;
-        String currentChars = "";
+    //abcca
+    // i = 3 --> c
+    // j = 0 --> a
+    // result = 3
+    // {a, b, c}
+    // {1, 1, 1}
 
-        // Iterate through the passed string, checking each charcter individually
-        for (int i = 0; i < s.length(); i++) {
-            // Pull the current character from the passed string
-            char letter = s.charAt(i);
 
-            // Check if the current character has been seen before
-            if (currentChars.contains(letter)) {
-                max -= currentChars.indexOf(letter) + 1;
-                currentChars = currentChars.substring(currentChars.indexOf(letter) + 1, currentChars.length);
-            } else {
-                max++;
-                currentChars += letter;
-            }
-        }
+    // Non-hashmap solution
+    // This solution relies on each alphanumeric digit corresponding to a unique ASCII value. Using
+    // these values, a facsimile of a hashmap can be created through a 256 int array
+    public int lengthOfLongestSubstring(String s) {
+        int result = 0;
+        // Create an array of 256 ints, this will be used to store the latest index of any given
+        // character (plus an additional 1 to ensure that the length is correctly calculated)
+        int[] arr = new int[256]; 
         
-        return max;
+        // Iterate through the entire string using i, while j will store the starting index of the 
+        // current substring to be evaluated
+        for (int i = 0, j = 0; i < s.length(); i++) {
+            // Check if the current character has been seen previously. If it has, the number stored
+            // in the array will be the index at which the letter was last seen
+            if (arr[s.charAt(i)] > 0) {
+                // Update the starting index for the current substring to be the larger value between
+                // j and the most recent appearance of the current letter
+                j = Math.max(j,arr[s.charAt(i)]);
+            }
+
+            // Update the index array to store the latest appearance of the current letter
+            arr[s.charAt(i)] = i + 1;
+                
+            // Update the result to store the longest substring found so far
+            result = Math.max(result, i - j + 1);
+        }
+
+        // Return the longest substring
+        return result;
     }
-    
 
 }
