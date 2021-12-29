@@ -57,14 +57,6 @@ public class LongestSubstringNoRepeat {
         return max;
     }
 
-    //abcca
-    // i = 3 --> c
-    // j = 0 --> a
-    // result = 3
-    // {a, b, c}
-    // {1, 1, 1}
-
-
     // Non-hashmap solution
     // This solution relies on each alphanumeric digit corresponding to a unique ASCII value. Using
     // these values, a facsimile of a hashmap can be created through a 256 int array
